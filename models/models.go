@@ -1,6 +1,9 @@
 package models
 
 type Purchase struct {
-	BuyersName string
-	ItemName   string
+	BuyerID    int
+	ItemID     int
+	IDPurchase int
 }
+
+type Purchases []*Purchase

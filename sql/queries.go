@@ -7,14 +7,32 @@ import (
 	"github.com/pkg/errors"
 )
 
-func getPurchaseInfo(db *sql.DB) ([]models.Purchase, error) {
-	rows, err := db.Query("")
+func GetPurchaseInfo(db *sql.DB) (models.Purchases, error) {
+	var (
+		purchases models.Purchases
+	)
+
+	rows, err := db.Query(`select "buyer_id", "item_id", "id_purchase" from "purchases"`)
 	if err != nil {
 		return nil, errors.Wrapf(err, "can not return rows")
 	}
+
 	defer rows.Close()
 
-	//var purchases []models.Purchase
+	for rows.Next() {
+		purchase := &models.Purchase{}
 
-	return nil, err
+		err := rows.Scan(&purchase.BuyerID, &purchase.ItemID, &purchase.IDPurchase)
+		if err != nil {
+			return nil, errors.Wrapf(err, "can not convert columns read from the database into the following common Go types")
+		}
+
+		purchases = append(purchases, purchase)
+	}
+
+	if err = rows.Err(); err != nil {
+		return nil, errors.Wrapf(err, "error was encountered during iteration")
+	}
+
+	return purchases, nil
 }
