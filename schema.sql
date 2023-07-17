@@ -42,3 +42,5 @@ values (1, 3),
        (4, 2),
        (4, 1),
        (3, 3);
+
+alter table purchases add column balance float;

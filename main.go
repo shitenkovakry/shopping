@@ -13,7 +13,7 @@ func main() {
 	db := db.CreateConnection()
 	defer db.Close()
 
-	purchases, err := sql.GetPurchaseInfo(db)
+	purchases, err := sql.GetAllPurchasesInfo(db)
 	if err != nil {
 		log.Println(errors.Wrapf(err, "can not get info of purchases"))
 	}
