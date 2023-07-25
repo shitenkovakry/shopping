@@ -48,4 +48,13 @@ alter table purchases add column balance float;
 alter table items add column status varchar(255);
 
 alter table items
-add constraint chk_status check (status in ('published', 'unpablished'));
+add constraint chk_status check (status in ('published', 'unpublished'));
+
+-- нельзя запускать в sql
+update items
+set status = 'published'
+where id in (2,3,4);
+
+update items
+set status = 'unpublished'
+where id = 1;
