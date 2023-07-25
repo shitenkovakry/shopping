@@ -44,3 +44,5 @@ values (1, 3),
        (3, 3);
 
 alter table purchases add column balance float;
+
+alter table items add column status varchar(255);
