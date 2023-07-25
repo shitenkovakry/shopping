@@ -46,3 +46,6 @@ values (1, 3),
 alter table purchases add column balance float;
 
 alter table items add column status varchar(255);
+
+alter table items
+add constraint chk_status check (status in ('published', 'unpablished'));
