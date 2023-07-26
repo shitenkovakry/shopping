@@ -55,6 +55,7 @@ update items
 set status = 'published'
 where id in (2,3,4);
 
+-- нельзя запускать в sql
 update items
 set status = 'unpublished'
 where id = 1;
