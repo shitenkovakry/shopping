@@ -4,8 +4,7 @@ import (
 	"log"
 	"os"
 	"shopping/db"
-
-	"github.com/go-chi/chi/v5"
+	//"github.com/go-chi/chi/v5"
 )
 
 const (
@@ -13,7 +12,7 @@ const (
 )
 
 func main() {
-	router := chi.NewRouter()
+	//router := chi.NewRouter()
 
 	dataBase := db.CreateConnection()
 

@@ -34,3 +34,7 @@ func CreateConnection() *sql.DB {
 
 	return db
 }
+
+type DB struct {
+	connection *sql.DB
+}
