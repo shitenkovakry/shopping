@@ -38,3 +38,9 @@ func CreateConnection() *sql.DB {
 type DB struct {
 	connection *sql.DB
 }
+
+func New() *DB {
+	return &DB{
+		connection: CreateConnection(),
+	}
+}

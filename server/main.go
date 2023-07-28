@@ -1,10 +1,20 @@
 package main
 
 import (
-	"log"
+	"context"
+	"net/http"
 	"os"
+	"os/signal"
 	"shopping/db"
-	//"github.com/go-chi/chi/v5"
+	"syscall"
+	"time"
+
+	products "shopping/handlers/products/list/admin"
+
+	"shopping/logger"
+	productsRepo "shopping/repositories/products"
+
+	"github.com/go-chi/chi/v5"
 )
 
 const (
@@ -12,14 +22,43 @@ const (
 )
 
 func main() {
-	//router := chi.NewRouter()
+	router := chi.NewRouter()
+	log := logger.New()
 
-	dataBase := db.CreateConnection()
+	log.Print("we are going to start")
 
-	defer dataBase.Close()
+	dataBase := db.New()
 
-	logger := log.New(os.Stdout, "shopping", log.Flags())
+	productsRepo := productsRepo.New(dataBase)
 
-	logger.Print("we are going to start")
+	handlerListOfProductsForAdmin := products.New(productsRepo, log)
+	router.Method(http.MethodGet, "/list/products/for/admin", handlerListOfProductsForAdmin)
 
+	server := NewServer(address, router)
+
+	log.Printf("serving at [%s]", address)
+
+	stopChan := make(chan os.Signal, 1)
+	signal.Notify(stopChan, syscall.SIGTERM, syscall.SIGINT)
+
+	go func() {
+		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+			log.Fatalf("server is error: %v", err)
+		}
+	}()
+	<-stopChan
+
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	if err := server.Shutdown(ctx); err != nil {
+		log.Fatalf("server shutdown error: %v", err)
+	}
+}
+
+func NewServer(address string, router *chi.Mux) *http.Server {
+	return &http.Server{
+		Addr:    address,
+		Handler: router,
+	}
 }
