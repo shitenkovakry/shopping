@@ -32,7 +32,7 @@ func main() {
 	productsRepo := productsRepo.New(dataBase)
 
 	handlerListOfProductsForAdmin := products.New(productsRepo, log)
-	router.Method(http.MethodGet, "/list/products/for/admin", handlerListOfProductsForAdmin)
+	router.Method(http.MethodGet, "/list/products/admin", handlerListOfProductsForAdmin)
 
 	server := NewServer(address, router)
 
