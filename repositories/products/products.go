@@ -8,7 +8,7 @@ import (
 
 type DB interface {
 	Read() (models.Products, error)
-	ReadForPublic() (models.Products, error)
+	ReadStatusPublished() (models.Products, error)
 }
 
 type Products struct {
@@ -25,7 +25,7 @@ func (products *Products) ListOfProductsForAdmin() (models.Products, error) {
 }
 
 func (products *Products) ListOfProductsForPublic() (models.Products, error) {
-	read, err := products.db.ReadForPublic()
+	read, err := products.db.ReadStatusPublished()
 	if err != nil {
 		return nil, errors.Wrapf(err, "can nor return list of products for public")
 	}

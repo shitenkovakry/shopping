@@ -28,7 +28,7 @@ func (db *DB) Read() (models.Products, error) {
 	return products, nil
 }
 
-func (db *DB) ReadForPublic() (models.Products, error) {
+func (db *DB) ReadStatusPublished() (models.Products, error) {
 	rows, err := db.connection.Query(`select "id", "name" from "items" where "status" = 'publushed'`)
 	if err != nil {
 		return nil, errors.Wrapf(err, "can not return rows, typically a SELECT.")

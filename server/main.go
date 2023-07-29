@@ -9,7 +9,8 @@ import (
 	"syscall"
 	"time"
 
-	products "shopping/handlers/products/list/admin"
+	products_list_admin "shopping/handlers/products/list/admin"
+	products_list_public "shopping/handlers/products/list/public"
 
 	"shopping/logger"
 	productsRepo "shopping/repositories/products"
@@ -31,8 +32,10 @@ func main() {
 
 	productsRepo := productsRepo.New(dataBase)
 
-	handlerListOfProductsForAdmin := products.New(productsRepo, log)
+	handlerListOfProductsForAdmin := products_list_admin.New(productsRepo, log)
 	router.Method(http.MethodGet, "/list/products/admin", handlerListOfProductsForAdmin)
+	handlerListOfProductsForPublic := products_list_public.New(productsRepo, log)
+	router.Method(http.MethodGet, "/list/products/public", handlerListOfProductsForPublic)
 
 	server := NewServer(address, router)
 
@@ -46,6 +49,7 @@ func main() {
 			log.Fatalf("server is error: %v", err)
 		}
 	}()
+
 	<-stopChan
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
