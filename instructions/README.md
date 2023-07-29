@@ -16,5 +16,11 @@ In order to get lists of products(admin), do this:
 ```
 curl -i -X GET \
   http://localhost:8080/list/products/admin
-
   ```
+
+In order to get lists of products which have published status(public), do this:
+
+```
+curl -i -X GET \
+  http://localhost:8080/list/products/public
+```
