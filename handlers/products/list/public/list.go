@@ -1,4 +1,4 @@
-package admin
+package public
 
 import (
 	"encoding/json"
@@ -8,16 +8,16 @@ import (
 )
 
 type Repository interface {
-	ListOfProductsForAdmin() (models.Products, error)
+	ListOfProductsForPublic() (models.Products, error)
 }
 
-type HandlerListOfProductsForAdmin struct {
+type HandlerListOfProductsForPublic struct {
 	repo Repository
 	log  *log.Logger
 }
 
-func New(repo Repository, log *log.Logger) *HandlerListOfProductsForAdmin {
-	result := &HandlerListOfProductsForAdmin{
+func New(repo Repository, log *log.Logger) *HandlerListOfProductsForPublic {
+	result := &HandlerListOfProductsForPublic{
 		repo: repo,
 		log:  log,
 	}
@@ -25,7 +25,7 @@ func New(repo Repository, log *log.Logger) *HandlerListOfProductsForAdmin {
 	return result
 }
 
-func (handler *HandlerListOfProductsForAdmin) sendResponse(writer http.ResponseWriter, listOfProducts models.Products) {
+func (handler *HandlerListOfProductsForPublic) sendResponse(writer http.ResponseWriter, listOfProducts models.Products) {
 	data, err := json.Marshal(listOfProducts)
 	if err != nil {
 		handler.log.Printf("can not marshal list of products: %v", err)
@@ -42,10 +42,10 @@ func (handler *HandlerListOfProductsForAdmin) sendResponse(writer http.ResponseW
 	}
 }
 
-func (handler *HandlerListOfProductsForAdmin) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
-	listOfProducts, err := handler.repo.ListOfProductsForAdmin()
+func (handler *HandlerListOfProductsForPublic) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
+	listOfProducts, err := handler.repo.ListOfProductsForPublic()
 	if err != nil {
-		handler.log.Printf("can not return list of products for admin: %v", err)
+		handler.log.Printf("can not return list of products for public: %v", err)
 		writer.WriteHeader(http.StatusInternalServerError)
 
 		return
