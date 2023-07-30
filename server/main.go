@@ -9,6 +9,7 @@ import (
 	"syscall"
 	"time"
 
+	products_get_admin "shopping/handlers/products/get/admin"
 	products_list_admin "shopping/handlers/products/list/admin"
 	products_list_public "shopping/handlers/products/list/public"
 
@@ -36,6 +37,8 @@ func main() {
 	router.Method(http.MethodGet, "/list/products/admin", handlerListOfProductsForAdmin)
 	handlerListOfProductsForPublic := products_list_public.New(productsRepo, log)
 	router.Method(http.MethodGet, "/list/products/public", handlerListOfProductsForPublic)
+	handlerGetProductForAdmin := products_get_admin.New(productsRepo, log)
+	router.Method(http.MethodGet, "/get/product/admin", handlerGetProductForAdmin)
 
 	server := NewServer(address, router)
 
