@@ -49,3 +49,25 @@ func (db *DB) ReadStatusPublished() (models.Products, error) {
 
 	return products, nil
 }
+
+func (db *DB) ReadProducts() (models.Products, error) {
+	rows, err := db.connection.Query(`select * from "items"`)
+	if err != nil {
+		return nil, errors.Wrapf(err, "can not return rows, typically a SELECT.")
+	}
+	defer rows.Close()
+
+	var products models.Products
+
+	for rows.Next() {
+		var product *models.Product
+
+		if err := rows.Scan(&product.ID, &product.Name, &product.Price, &product.Status); err != nil {
+			return nil, errors.Wrapf(err, "can not convert columns read from the database into the following common Go types")
+		}
+
+		products = append(products, product)
+	}
+
+	return products, nil
+}

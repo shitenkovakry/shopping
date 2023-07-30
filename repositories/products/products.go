@@ -9,6 +9,7 @@ import (
 type DB interface {
 	Read() (models.Products, error)
 	ReadStatusPublished() (models.Products, error)
+	ReadProducts() (models.Products, error)
 }
 
 type Products struct {
@@ -31,6 +32,15 @@ func (products *Products) ListOfProductsForPublic() (models.Products, error) {
 	}
 
 	return read, nil
+}
+
+func (products *Products) GetProduct(idProduct int) (models.Products, error) {
+	got, err := products.db.ReadProducts()
+	if err != nil {
+		return nil, errors.Wrapf(err, "can nor return products")
+	}
+
+	return got, nil
 }
 
 func New(db DB) *Products {
