@@ -85,3 +85,24 @@ func (db *DB) ReadPublishedProduct() (*models.Product, error) {
 
 	return product, nil
 }
+
+func (db *DB) Insert(newProduct *models.Product) (*models.Product, error) {
+	var id int
+
+	err := db.connection.QueryRow(
+		`insert into "items" ("name", "price", "status") values ($1, $2, $3) returning "id"`,
+		newProduct.Name, newProduct.Price, newProduct.Status,
+	).Scan(&id)
+	if err != nil {
+		return nil, errors.Wrapf(err, "can not insert new product")
+	}
+
+	createdProduct := &models.Product{
+		ID:     id,
+		Name:   newProduct.Name,
+		Price:  newProduct.Price,
+		Status: newProduct.Status,
+	}
+
+	return createdProduct, nil
+}
