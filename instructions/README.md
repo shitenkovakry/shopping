@@ -24,3 +24,10 @@ In order to get lists of products which have published status(public), do this:
 curl -i -X GET \
   http://localhost:8080/list/products/public
 ```
+
+In order to get products, do this:
+
+```
+curl -i -X GET \
+  http://localhost:8080//get/product/admin
+  ```
