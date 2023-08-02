@@ -10,6 +10,7 @@ import (
 	"time"
 
 	products_get_admin "shopping/handlers/products/get/admin"
+	products_get_publish "shopping/handlers/products/get/publish"
 	products_list_admin "shopping/handlers/products/list/admin"
 	products_list_public "shopping/handlers/products/list/public"
 
@@ -39,6 +40,8 @@ func main() {
 	router.Method(http.MethodGet, "/list/products/public", handlerListOfProductsForPublic)
 	handlerGetProductForAdmin := products_get_admin.New(productsRepo, log)
 	router.Method(http.MethodGet, "/get/product/{id_product}/admin", handlerGetProductForAdmin)
+	handlerGetPublishedProduct := products_get_publish.New(productsRepo, log)
+	router.Method(http.MethodGet, "/get/product/{id_product}", handlerGetPublishedProduct)
 
 	server := NewServer(address, router)
 
