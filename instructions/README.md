@@ -25,9 +25,16 @@ curl -i -X GET \
   http://localhost:8080/list/products/public
 ```
 
-In order to get products, do this:
+In order to get product, do this:
 
 ```
 curl -i -X GET \
   http://localhost:8080/get/product/{id_product}/admin
+  ```
+
+  In order to get published product, do this:
+
+```
+curl -i -X GET \
+  http://localhost:8080/get/product/{id_product}
   ```
