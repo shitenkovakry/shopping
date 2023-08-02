@@ -51,7 +51,7 @@ func (db *DB) ReadStatusPublished() (models.Products, error) {
 }
 
 func (db *DB) ReadProduct() (*models.Product, error) {
-	rows, err := db.connection.Query(`select * from "items"`)
+	rows, err := db.connection.Query(`select "id", "name", "price", "status" from "items"`)
 	if err != nil {
 		return nil, errors.Wrapf(err, "can not return rows, typically a SELECT.")
 	}
@@ -61,6 +61,24 @@ func (db *DB) ReadProduct() (*models.Product, error) {
 
 	for rows.Next() {
 		if err := rows.Scan(&product.ID, &product.Name, &product.Price, &product.Status); err != nil {
+			return nil, errors.Wrapf(err, "can not convert columns read from the database into the following common Go types")
+		}
+	}
+
+	return product, nil
+}
+
+func (db *DB) ReadPublishedProduct() (*models.Product, error) {
+	rows, err := db.connection.Query(`select "id", "name", "price" from "items" where "status" = 'published'`)
+	if err != nil {
+		return nil, errors.Wrapf(err, "can not return rows, typically a SELECT.")
+	}
+	defer rows.Close()
+
+	var product *models.Product
+
+	for rows.Next() {
+		if err := rows.Scan(&product.ID, &product.Name, &product.Price); err != nil {
 			return nil, errors.Wrapf(err, "can not convert columns read from the database into the following common Go types")
 		}
 	}

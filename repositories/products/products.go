@@ -10,6 +10,7 @@ type DB interface {
 	Read() (models.Products, error)
 	ReadStatusPublished() (models.Products, error)
 	ReadProduct() (*models.Product, error)
+	ReadPublishedProduct() (*models.Product, error)
 }
 
 type Products struct {
@@ -36,6 +37,15 @@ func (products *Products) ListOfProductsForPublic() (models.Products, error) {
 
 func (products *Products) GetProduct(idProduct int) (*models.Product, error) {
 	got, err := products.db.ReadProduct()
+	if err != nil {
+		return nil, errors.Wrapf(err, "can nor return products")
+	}
+
+	return got, nil
+}
+
+func (products *Products) GetPublishedProduct(idProduct int) (*models.Product, error) {
+	got, err := products.db.ReadPublishedProduct()
 	if err != nil {
 		return nil, errors.Wrapf(err, "can nor return products")
 	}
