@@ -29,5 +29,5 @@ In order to get products, do this:
 
 ```
 curl -i -X GET \
-  http://localhost:8080//get/product/admin
+  http://localhost:8080/get/product/{id_product}/admin
   ```

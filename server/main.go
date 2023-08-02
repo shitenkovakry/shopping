@@ -38,7 +38,7 @@ func main() {
 	handlerListOfProductsForPublic := products_list_public.New(productsRepo, log)
 	router.Method(http.MethodGet, "/list/products/public", handlerListOfProductsForPublic)
 	handlerGetProductForAdmin := products_get_admin.New(productsRepo, log)
-	router.Method(http.MethodGet, "/get/product/admin", handlerGetProductForAdmin)
+	router.Method(http.MethodGet, "/get/product/{id_product}/admin", handlerGetProductForAdmin)
 
 	server := NewServer(address, router)
 
