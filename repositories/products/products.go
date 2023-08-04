@@ -14,6 +14,7 @@ type DB interface {
 	Insert(newProduct *models.Product) (*models.Product, error)
 	UpdatePrice(idProduct int, price float64) (*models.Product, error)
 	UpdateName(idProduct int, name string) (*models.Product, error)
+	Delete(idProduct int) (*models.Product, error)
 }
 
 type Products struct {
@@ -81,6 +82,15 @@ func (products *Products) ChangeName(idProduct int, name string) (*models.Produc
 	}
 
 	return updatedName, nil
+}
+
+func (products *Products) Delete(idProduct int) (*models.Product, error) {
+	deletedProduct, err := products.db.Delete(idProduct)
+	if err != nil {
+		return nil, errors.Wrapf(err, "can not delete product")
+	}
+
+	return deletedProduct, nil
 }
 
 func New(db DB) *Products {

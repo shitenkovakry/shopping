@@ -142,3 +142,25 @@ func (db *DB) UpdateName(idProduct int, name string) (*models.Product, error) {
 
 	return updatedName, nil
 }
+
+func (db *DB) Delete(idProduct int) (*models.Product, error) {
+	deletedProduct := &models.Product{}
+
+	err := db.connection.QueryRow(
+		`select "id", "name", "price", "status" from "items" where "id" = $1`,
+		idProduct,
+	).Scan(&deletedProduct.ID, &deletedProduct.Name, &deletedProduct.Price, &deletedProduct.Status)
+	if err != nil {
+		return nil, errors.Wrapf(err, "can not find product to delete")
+	}
+
+	_, err = db.connection.Exec(
+		`delete from "items" where "id" = $1`,
+		idProduct,
+	)
+	if err != nil {
+		return nil, errors.Wrapf(err, "can not delete product")
+	}
+
+	return deletedProduct, nil
+}
