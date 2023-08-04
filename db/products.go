@@ -124,3 +124,21 @@ func (db *DB) UpdatePrice(idProduct int, price float64) (*models.Product, error)
 
 	return updatedPrice, nil
 }
+
+func (db *DB) UpdateName(idProduct int, name string) (*models.Product, error) {
+	_, err := db.connection.Exec(
+		`update "items" set "name" = $1 where "id" = $2`,
+		name, idProduct,
+	)
+
+	if err != nil {
+		return nil, errors.Wrapf(err, "can not update product name")
+	}
+
+	updatedName := &models.Product{
+		ID:   idProduct,
+		Name: name,
+	}
+
+	return updatedName, nil
+}
