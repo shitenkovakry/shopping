@@ -12,6 +12,7 @@ type DB interface {
 	ReadProduct() (*models.Product, error)
 	ReadPublishedProduct() (*models.Product, error)
 	Insert(newProduct *models.Product) (*models.Product, error)
+	UpdatePrice(idProduct int, price float64) (*models.Product, error)
 }
 
 type Products struct {
@@ -61,6 +62,15 @@ func (products *Products) Create(newProduct *models.Product) (*models.Product, e
 	}
 
 	return created, nil
+}
+
+func (products *Products) ChangePrice(idProduct int, price float64) (*models.Product, error) {
+	updatedPrice, err := products.db.UpdatePrice(idProduct, price)
+	if err != nil {
+		return nil, errors.Wrapf(err, "can not change price")
+	}
+
+	return updatedPrice, nil
 }
 
 func New(db DB) *Products {

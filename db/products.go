@@ -106,3 +106,21 @@ func (db *DB) Insert(newProduct *models.Product) (*models.Product, error) {
 
 	return createdProduct, nil
 }
+
+func (db *DB) UpdatePrice(idProduct int, price float64) (*models.Product, error) {
+	_, err := db.connection.Exec(
+		`update "items" set "price" = $1 where "id" = $2`,
+		price, idProduct,
+	)
+
+	if err != nil {
+		return nil, errors.Wrapf(err, "can not update product price")
+	}
+
+	updatedPrice := &models.Product{
+		ID:    idProduct,
+		Price: price,
+	}
+
+	return updatedPrice, nil
+}
