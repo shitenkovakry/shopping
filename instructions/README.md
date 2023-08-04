@@ -15,26 +15,26 @@ In order to get lists of products(admin), do this:
 
 ```
 curl -i -X GET \
-  http://localhost:8080/list/products/admin
+  http://localhost:8080/api/v1/list/products/admin
   ```
 
 In order to get lists of products which have published status(public), do this:
 
 ```
 curl -i -X GET \
-  http://localhost:8080/list/products/public
+  http://localhost:8080/api/v1/list/products/public
 ```
 
 In order to get product, do this:
 
 ```
 curl -i -X GET \
-  http://localhost:8080/get/product/{id_product}/admin
+  http://localhost:8080/api/v1/get/product/{id_product}/admin
   ```
 
   In order to get published product, do this:
 
 ```
 curl -i -X GET \
-  http://localhost:8080/get/product/{id_product}
+  http://localhost:8080/api/v1/get/product/{id_product}
   ```

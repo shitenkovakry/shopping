@@ -9,6 +9,7 @@ import (
 	"syscall"
 	"time"
 
+	products_add_admin "shopping/handlers/products/add/admin"
 	products_get_admin "shopping/handlers/products/get/admin"
 	products_get_publish "shopping/handlers/products/get/publish"
 	products_list_admin "shopping/handlers/products/list/admin"
@@ -35,13 +36,15 @@ func main() {
 	productsRepo := productsRepo.New(dataBase)
 
 	handlerListOfProductsForAdmin := products_list_admin.New(productsRepo, log)
-	router.Method(http.MethodGet, "/list/products/admin", handlerListOfProductsForAdmin)
+	router.Method(http.MethodGet, "/api/v1/list/products/admin", handlerListOfProductsForAdmin)
 	handlerListOfProductsForPublic := products_list_public.New(productsRepo, log)
-	router.Method(http.MethodGet, "/list/products/public", handlerListOfProductsForPublic)
+	router.Method(http.MethodGet, "/api/v1/list/products/public", handlerListOfProductsForPublic)
 	handlerGetProductForAdmin := products_get_admin.New(productsRepo, log)
-	router.Method(http.MethodGet, "/get/product/{id_product}/admin", handlerGetProductForAdmin)
+	router.Method(http.MethodGet, "/api/v1/get/product/{id_product}/admin", handlerGetProductForAdmin)
 	handlerGetPublishedProduct := products_get_publish.New(productsRepo, log)
-	router.Method(http.MethodGet, "/get/product/{id_product}", handlerGetPublishedProduct)
+	router.Method(http.MethodGet, "/api/v1/get/product/{id_product}", handlerGetPublishedProduct)
+	handlerAddProduct := products_add_admin.New(productsRepo, log)
+	router.Method(http.MethodPost, "/api/v1/add/product", handlerAddProduct)
 
 	server := NewServer(address, router)
 
