@@ -47,10 +47,18 @@ curl -i -X POST \
   http://localhost:8080/api/v1/add/product
   ```
 
- In order to add product, do this:
+ In order to change price of product, do this:
 
 ```
 curl -i -X PUT \
  --data-binary '{"id_product":1,"new_price": 35.0}' \
-  http://localhost:8080/api/v1/change/price/product/1"
+  http://localhost:8080/api/v1/change/price/product"
+  ```
+
+ In order to change name of product, do this:
+
+```
+curl -i -X PUT \
+ --data-binary '{"id_product":1,"new_name": "salat"}' \
+  http://localhost:8080/api/v1/change/name/product"
   ```
