@@ -10,6 +10,7 @@ import (
 	"time"
 
 	products_add_admin "shopping/handlers/products/add/admin"
+	products_change_admin "shopping/handlers/products/change-price/admin"
 	products_get_admin "shopping/handlers/products/get/admin"
 	products_get_publish "shopping/handlers/products/get/publish"
 	products_list_admin "shopping/handlers/products/list/admin"
@@ -45,6 +46,8 @@ func main() {
 	router.Method(http.MethodGet, "/api/v1/get/product/{id_product}", handlerGetPublishedProduct)
 	handlerAddProduct := products_add_admin.New(productsRepo, log)
 	router.Method(http.MethodPost, "/api/v1/add/product", handlerAddProduct)
+	handlerChangePriceOfProduct := products_change_admin.New(productsRepo, log)
+	router.Method(http.MethodPut, "/api/v1/change/price/product/{id_product}", handlerChangePriceOfProduct)
 
 	server := NewServer(address, router)
 
