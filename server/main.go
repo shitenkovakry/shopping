@@ -12,6 +12,7 @@ import (
 	products_add_admin "shopping/handlers/products/add/admin"
 	products_change_name_admin "shopping/handlers/products/change-name/admin"
 	products_change_admin "shopping/handlers/products/change-price/admin"
+	products_delete_admin "shopping/handlers/products/delete/admin"
 	products_get_admin "shopping/handlers/products/get/admin"
 	products_get_publish "shopping/handlers/products/get/publish"
 	products_list_admin "shopping/handlers/products/list/admin"
@@ -51,6 +52,8 @@ func main() {
 	router.Method(http.MethodPut, "/api/v1/change/price/product", handlerChangePriceOfProduct)
 	handlerChangeNameOfProduct := products_change_name_admin.New(productsRepo, log)
 	router.Method(http.MethodPut, "/api/v1/change/name/product", handlerChangeNameOfProduct)
+	handlerDeleteProduct := products_delete_admin.New(productsRepo, log)
+	router.Method(http.MethodDelete, "/api/v1/delete/product", handlerDeleteProduct)
 
 	server := NewServer(address, router)
 
