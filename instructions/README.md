@@ -29,7 +29,7 @@ In order to get product, do this:
 
 ```
 curl -i -X GET \
-  http://localhost:8080/api/v1/get/product/{id_product}/admin
+  http://localhost:8080/api/v1/get/product/{1}/admin
   ```
 
   In order to get published product, do this:
@@ -37,4 +37,12 @@ curl -i -X GET \
 ```
 curl -i -X GET \
   http://localhost:8080/api/v1/get/product/{id_product}
+  ```
+
+   In order to add product, do this:
+
+```
+curl -i -X POST \
+ --data-binary '{"name_product": "potato","price_product": 30.0,"status": "published"}' \
+  http://localhost:8080/api/v1/add/product
   ```
