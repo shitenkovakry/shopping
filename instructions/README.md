@@ -62,3 +62,11 @@ curl -i -X PUT \
  --data-binary '{"id_product":1,"new_name": "salat"}' \
   http://localhost:8080/api/v1/change/name/product"
   ```
+
+   In order to delete product, do this:
+
+```
+curl -i -X DELETE \
+ --data-binary '{"id_product":1}' \
+  http://localhost:8080/api/v1/delete/product"
+  ```
