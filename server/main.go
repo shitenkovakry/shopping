@@ -47,7 +47,7 @@ func main() {
 	handlerAddProduct := products_add_admin.New(productsRepo, log)
 	router.Method(http.MethodPost, "/api/v1/add/product", handlerAddProduct)
 	handlerChangePriceOfProduct := products_change_admin.New(productsRepo, log)
-	router.Method(http.MethodPut, "/api/v1/change/price/product/{id_product}", handlerChangePriceOfProduct)
+	router.Method(http.MethodPut, "/api/v1/change/price/product", handlerChangePriceOfProduct)
 
 	server := NewServer(address, router)
 

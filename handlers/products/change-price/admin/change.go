@@ -6,12 +6,10 @@ import (
 	"log"
 	"net/http"
 	"shopping/models"
-	"strconv"
-
-	"github.com/go-chi/chi/v5"
 )
 
 type ChangePriceOfProduct struct {
+	ID    int     `json:"id_roduct"`
 	Price float64 `json:"new_price"`
 }
 
@@ -40,15 +38,6 @@ func (handler *HandlerChangeProductForAdmin) prepareRequest(request *http.Reques
 		}
 	}()
 
-	productIDParam := chi.URLParam(request, "id_product")
-	productID, err := strconv.Atoi(productIDParam)
-
-	if err != nil {
-		handler.log.Printf("err = %v", err)
-
-		return nil, err
-	}
-
 	body, err := io.ReadAll(request.Body)
 	if err != nil {
 		handler.log.Printf("cannot read body: %v", err)
@@ -65,7 +54,7 @@ func (handler *HandlerChangeProductForAdmin) prepareRequest(request *http.Reques
 	}
 
 	newPrice := &models.Product{
-		ID:    productID,
+		ID:    newPriceFromAdmin.ID,
 		Price: newPriceFromAdmin.Price,
 	}
 
