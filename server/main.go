@@ -19,6 +19,7 @@ import (
 	products_list_public "shopping/handlers/products/list/public"
 
 	buyers_add_admin "shopping/handlers/buyers/add/admin"
+	buyers_change_email_public "shopping/handlers/buyers/change-email/public"
 	buyers_change_name_public "shopping/handlers/buyers/change-name/public"
 
 	"shopping/logger"
@@ -64,6 +65,8 @@ func main() {
 	router.Method(http.MethodPost, "/api/v1/add/buyer", handlerAddBuyer)
 	handlerChangeNameOfBuyer := buyers_change_name_public.New(buyersRepo, log)
 	router.Method(http.MethodPut, "/api/v1/change/name/buyer", handlerChangeNameOfBuyer)
+	handlerChangeEmailOfBuyer := buyers_change_email_public.New(buyersRepo, log)
+	router.Method(http.MethodPut, "/api/v1/change/email/buyer", handlerChangeEmailOfBuyer)
 
 	server := NewServer(address, router)
 
