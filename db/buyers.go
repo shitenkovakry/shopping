@@ -6,7 +6,7 @@ import (
 	"github.com/pkg/errors"
 )
 
-func (db *DB) InsertInsert(newBuyer *models.Buyer) (*models.Buyer, error) {
+func (db *DB) InsertBuyer(newBuyer *models.Buyer) (*models.Buyer, error) {
 	var id int
 
 	err := db.connection.QueryRow(

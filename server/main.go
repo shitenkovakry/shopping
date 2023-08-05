@@ -18,7 +18,10 @@ import (
 	products_list_admin "shopping/handlers/products/list/admin"
 	products_list_public "shopping/handlers/products/list/public"
 
+	buyers_add_admin "shopping/handlers/buyers/add/admin"
+
 	"shopping/logger"
+	buyersRepo "shopping/repositories/buyers"
 	productsRepo "shopping/repositories/products"
 
 	"github.com/go-chi/chi/v5"
@@ -37,6 +40,7 @@ func main() {
 	dataBase := db.New()
 
 	productsRepo := productsRepo.New(dataBase)
+	buyersRepo := buyersRepo.New(dataBase)
 
 	handlerListOfProductsForAdmin := products_list_admin.New(productsRepo, log)
 	router.Method(http.MethodGet, "/api/v1/list/products/admin", handlerListOfProductsForAdmin)
@@ -54,6 +58,9 @@ func main() {
 	router.Method(http.MethodPut, "/api/v1/change/name/product", handlerChangeNameOfProduct)
 	handlerDeleteProduct := products_delete_admin.New(productsRepo, log)
 	router.Method(http.MethodDelete, "/api/v1/delete/product", handlerDeleteProduct)
+
+	handlerAddBuyer := buyers_add_admin.New(buyersRepo, log)
+	router.Method(http.MethodPost, "/api/v1/add/buyer", handlerAddBuyer)
 
 	server := NewServer(address, router)
 

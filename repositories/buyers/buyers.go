@@ -7,7 +7,7 @@ import (
 )
 
 type DB interface {
-	Insert(newBuyer *models.Buyer) (*models.Buyer, error)
+	InsertBuyer(newBuyer *models.Buyer) (*models.Buyer, error)
 }
 
 type Buyers struct {
@@ -15,10 +15,16 @@ type Buyers struct {
 }
 
 func (buyers *Buyers) Create(newBuyer *models.Buyer) (*models.Buyer, error) {
-	created, err := buyers.db.Insert(newBuyer)
+	created, err := buyers.db.InsertBuyer(newBuyer)
 	if err != nil {
 		return nil, errors.Wrapf(err, "can not create buyer")
 	}
 
 	return created, nil
+}
+
+func New(db DB) *Buyers {
+	return &Buyers{
+		db: db,
+	}
 }
