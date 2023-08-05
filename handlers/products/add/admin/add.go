@@ -92,7 +92,7 @@ func (handler *HandlerAddProduct) ServeHTTP(write http.ResponseWriter, request *
 
 	createdProduct, err := handler.repo.Create(newProduct)
 	if err != nil {
-		handler.log.Printf("cannot create user: %v", err)
+		handler.log.Printf("cannot create product: %v", err)
 		write.WriteHeader(http.StatusInternalServerError)
 
 		return

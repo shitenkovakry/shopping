@@ -59,3 +59,8 @@ where id in (2,3,4);
 update items
 set status = 'unpublished'
 where id = 1;
+
+alter table buyers add column status varchar(255);
+
+alter table buyers
+add constraint chk_status check (status in ('active', 'deleted'));

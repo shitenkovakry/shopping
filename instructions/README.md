@@ -66,7 +66,7 @@ curl -i -X PUT \
    In order to delete product, do this:
 
 ```
-curl -i -X DELETE \
+curl -i -X DELETEg \
  --data-binary '{"id_product":1}' \
   http://localhost:8080/api/v1/delete/product"
   ```
