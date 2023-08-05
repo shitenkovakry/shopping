@@ -32,7 +32,7 @@ curl -i -X GET \
   http://localhost:8080/api/v1/get/product/{1}/admin
   ```
 
-
+g
  In order to get published product, do this:
 
 ```

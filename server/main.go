@@ -14,7 +14,7 @@ import (
 	products_change_admin "shopping/handlers/products/change-price/admin"
 	products_delete_admin "shopping/handlers/products/delete/admin"
 	products_get_admin "shopping/handlers/products/get/admin"
-	products_get_publish "shopping/handlers/products/get/publish"
+	products_get_public "shopping/handlers/products/get/public"
 	products_list_admin "shopping/handlers/products/list/admin"
 	products_list_public "shopping/handlers/products/list/public"
 
@@ -48,7 +48,7 @@ func main() {
 	router.Method(http.MethodGet, "/api/v1/list/products/public", handlerListOfProductsForPublic)
 	handlerGetProductForAdmin := products_get_admin.New(productsRepo, log)
 	router.Method(http.MethodGet, "/api/v1/get/product/{id_product}/admin", handlerGetProductForAdmin)
-	handlerGetPublishedProduct := products_get_publish.New(productsRepo, log)
+	handlerGetPublishedProduct := products_get_public.New(productsRepo, log)
 	router.Method(http.MethodGet, "/api/v1/get/product/{id_product}", handlerGetPublishedProduct)
 	handlerAddProduct := products_add_admin.New(productsRepo, log)
 	router.Method(http.MethodPost, "/api/v1/add/product", handlerAddProduct)
