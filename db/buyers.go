@@ -27,3 +27,21 @@ func (db *DB) InsertBuyer(newBuyer *models.Buyer) (*models.Buyer, error) {
 
 	return createdBuyer, nil
 }
+
+func (db *DB) UpdateNameOfBuyer(idBuyer int, name string) (*models.Buyer, error) {
+	_, err := db.connection.Exec(
+		`update "buyers" set "name" = $1 where "id" = $2`,
+		name, idBuyer,
+	)
+
+	if err != nil {
+		return nil, errors.Wrapf(err, "can not update buyer name")
+	}
+
+	updatedName := &models.Buyer{
+		ID:   idBuyer,
+		Name: name,
+	}
+
+	return updatedName, nil
+}
