@@ -90,3 +90,11 @@ curl -i -X PUT \
  --data-binary '{"id_buyer":1,"new_name": "Kenny"}' \
   http://localhost:8080/api/v1/change/name/buyer"
   ```
+
+   In order to change email of buyer, do this:
+
+```
+curl -i -X PUT \
+ --data-binary '{"id_buyer":1,"new_email": "kenny@ked.ru"}' \
+  http://localhost:8080/api/v1/change/email/buyer"
+  ```
