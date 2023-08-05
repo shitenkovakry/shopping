@@ -82,3 +82,11 @@ curl -i -X POST \
  --data-binary '{"name_buyer": "Josh","email_buyer": "josh@mail.ru","balance_buyer": 500.50, "status_buyer": "active"}' \
   http://localhost:8080/api/v1/add/buyer
   ```
+
+ In order to change name of buyer, do this:
+
+```
+curl -i -X PUT \
+ --data-binary '{"id_buyer":1,"new_name": "Kenny"}' \
+  http://localhost:8080/api/v1/change/name/buyer"
+  ```
