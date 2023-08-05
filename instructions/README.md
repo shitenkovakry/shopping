@@ -32,18 +32,19 @@ curl -i -X GET \
   http://localhost:8080/api/v1/get/product/{1}/admin
   ```
 
-  In order to get published product, do this:
+
+ In order to get published product, do this:
 
 ```
 curl -i -X GET \
-  http://localhost:8080/api/v1/get/product/{id_product}
+  http://localhost:8080/api/v1/get/product/1
   ```
 
 In order to add product, do this:
 
 ```
 curl -i -X POST \
- --data-binary '{"name_product": "potato","price_product": 30.0,"status": "published"}' \
+ --data-binary '{"name_product": "potato","price_product": 30.0,"status_product": "published"}' \
   http://localhost:8080/api/v1/add/product
   ```
 
@@ -63,10 +64,21 @@ curl -i -X PUT \
   http://localhost:8080/api/v1/change/name/product"
   ```
 
-   In order to delete product, do this:
+
+ In order to delete product, do this:
 
 ```
-curl -i -X DELETEg \
+curl -i -X DELETE \
  --data-binary '{"id_product":1}' \
   http://localhost:8080/api/v1/delete/product"
+  ```
+
+
+
+In order to add buyer, do this:
+
+```
+curl -i -X POST \
+ --data-binary '{"name_buyer": "Josh","email_buyer": "josh@mail.ru","balance_buyer": 500.50, "status_buyer": "active"}' \
+  http://localhost:8080/api/v1/add/buyer
   ```
