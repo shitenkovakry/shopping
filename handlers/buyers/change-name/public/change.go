@@ -17,13 +17,13 @@ type Repository interface {
 	ChangeNameOfBuyer(idBuyer int, name string) (*models.Buyer, error)
 }
 
-type HandlerChangeNameBuyerForAdmin struct {
+type HandlerChangeNameBuyerForPublic struct {
 	repo Repository
 	log  *log.Logger
 }
 
-func New(repo Repository, log *log.Logger) *HandlerChangeNameBuyerForAdmin {
-	result := &HandlerChangeNameBuyerForAdmin{
+func New(repo Repository, log *log.Logger) *HandlerChangeNameBuyerForPublic {
+	result := &HandlerChangeNameBuyerForPublic{
 		repo: repo,
 		log:  log,
 	}
@@ -31,7 +31,7 @@ func New(repo Repository, log *log.Logger) *HandlerChangeNameBuyerForAdmin {
 	return result
 }
 
-func (handler *HandlerChangeNameBuyerForAdmin) prepareRequest(request *http.Request) (*models.Buyer, error) {
+func (handler *HandlerChangeNameBuyerForPublic) prepareRequest(request *http.Request) (*models.Buyer, error) {
 	defer func() {
 		if err := request.Body.Close(); err != nil {
 			handler.log.Printf("cannot close body: %v", err)
@@ -45,23 +45,23 @@ func (handler *HandlerChangeNameBuyerForAdmin) prepareRequest(request *http.Requ
 		return nil, err
 	}
 
-	var newNameFromAdmin *ChangeNameOfBuyer
+	var newNameFromClient *ChangeNameOfBuyer
 
-	if err := json.Unmarshal(body, &newNameFromAdmin); err != nil {
+	if err := json.Unmarshal(body, &newNameFromClient); err != nil {
 		handler.log.Printf("cannot unmarshal body=%s: %v", string(body), err)
 
 		return nil, err
 	}
 
 	newName := &models.Buyer{
-		ID:   newNameFromAdmin.ID,
-		Name: newNameFromAdmin.Name,
+		ID:   newNameFromClient.ID,
+		Name: newNameFromClient.Name,
 	}
 
 	return newName, nil
 }
 
-func (handler *HandlerChangeNameBuyerForAdmin) sendResponse(writer http.ResponseWriter, changedName *models.Buyer) {
+func (handler *HandlerChangeNameBuyerForPublic) sendResponse(writer http.ResponseWriter, changedName *models.Buyer) {
 	changedNameBuyerMarshaled, err := json.Marshal(changedName)
 	if err != nil {
 		handler.log.Printf("can not marshal changed name of buyer: %v", err)
@@ -78,7 +78,7 @@ func (handler *HandlerChangeNameBuyerForAdmin) sendResponse(writer http.Response
 	}
 }
 
-func (handler *HandlerChangeNameBuyerForAdmin) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
+func (handler *HandlerChangeNameBuyerForPublic) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
 	shouldChangeNameOfBuyer, err := handler.prepareRequest(request)
 	if err != nil {
 		handler.log.Printf("can not prepare request: %v", err)

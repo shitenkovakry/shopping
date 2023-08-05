@@ -9,6 +9,7 @@ import (
 type DB interface {
 	InsertBuyer(newBuyer *models.Buyer) (*models.Buyer, error)
 	UpdateNameOfBuyer(idBuyer int, name string) (*models.Buyer, error)
+	UpdateEmailOfBuyer(idBuyer int, email string) (*models.Buyer, error)
 }
 
 type Buyers struct {
@@ -31,6 +32,15 @@ func (buyers *Buyers) ChangeNameOfBuyer(idBuyer int, name string) (*models.Buyer
 	}
 
 	return updatedName, nil
+}
+
+func (buyers *Buyers) ChangeEmailOfBuyer(idBuyer int, email string) (*models.Buyer, error) {
+	updatedEmail, err := buyers.db.UpdateEmailOfBuyer(idBuyer, email)
+	if err != nil {
+		return nil, errors.Wrapf(err, "can not change email")
+	}
+
+	return updatedEmail, nil
 }
 
 func New(db DB) *Buyers {
