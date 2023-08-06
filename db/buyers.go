@@ -63,3 +63,21 @@ func (db *DB) UpdateEmailOfBuyer(idBuyer int, email string) (*models.Buyer, erro
 
 	return updatedEmail, nil
 }
+
+func (db *DB) UpdateStatusOfBuyer(idBuyer int, status string) (*models.Buyer, error) {
+	_, err := db.connection.Exec(
+		`update "buyers" set "status" = $1 where "id" = $2`,
+		status, idBuyer,
+	)
+
+	if err != nil {
+		return nil, errors.Wrapf(err, "can not update buyer status")
+	}
+
+	updatedStatus := &models.Buyer{
+		ID:     idBuyer,
+		Status: status,
+	}
+
+	return updatedStatus, nil
+}

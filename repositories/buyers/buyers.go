@@ -10,6 +10,7 @@ type DB interface {
 	InsertBuyer(newBuyer *models.Buyer) (*models.Buyer, error)
 	UpdateNameOfBuyer(idBuyer int, name string) (*models.Buyer, error)
 	UpdateEmailOfBuyer(idBuyer int, email string) (*models.Buyer, error)
+	UpdateStatusOfBuyer(idBuyer int, status string) (*models.Buyer, error)
 }
 
 type Buyers struct {
@@ -41,6 +42,15 @@ func (buyers *Buyers) ChangeEmailOfBuyer(idBuyer int, email string) (*models.Buy
 	}
 
 	return updatedEmail, nil
+}
+
+func (buyers *Buyers) ChangeStatuslOfBuyer(idBuyer int, status string) (*models.Buyer, error) {
+	updatedStatus, err := buyers.db.UpdateStatusOfBuyer(idBuyer, status)
+	if err != nil {
+		return nil, errors.Wrapf(err, "can not change status")
+	}
+
+	return updatedStatus, nil
 }
 
 func New(db DB) *Buyers {
