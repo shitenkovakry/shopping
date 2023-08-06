@@ -64,6 +64,14 @@ curl -i -X PUT \
   http://localhost:8080/api/v1/change/name/product"
   ```
 
+   In order to change status of product, do this:
+
+```
+curl -i -X PUT \
+ --data-binary '{"id_product":1,"new_status": "unpublished"}' \
+  http://localhost:8080/api/v1/change/status/product"
+  ```
+
 
  In order to delete product, do this:
 
