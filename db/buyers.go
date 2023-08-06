@@ -9,6 +9,8 @@ import (
 func (db *DB) InsertBuyer(newBuyer *models.Buyer) (*models.Buyer, error) {
 	var id int
 
+	newBuyer.Status = "active"
+
 	err := db.connection.QueryRow(
 		`insert into "buyers" ("name", "email", "balance", "status") values ($1, $2, $3, $4) returning "id"`,
 		newBuyer.Name, newBuyer.Email, newBuyer.Balance, newBuyer.Status,
