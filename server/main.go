@@ -11,7 +11,8 @@ import (
 
 	products_add_admin "shopping/handlers/products/add/admin"
 	products_change_name_admin "shopping/handlers/products/change-name/admin"
-	products_change_admin "shopping/handlers/products/change-price/admin"
+	products_change_price_admin "shopping/handlers/products/change-price/admin"
+	products_change_status_admin "shopping/handlers/products/change-status/admin"
 	products_delete_admin "shopping/handlers/products/delete/admin"
 	products_get_admin "shopping/handlers/products/get/admin"
 	products_get_public "shopping/handlers/products/get/public"
@@ -54,10 +55,12 @@ func main() {
 	router.Method(http.MethodGet, "/api/v1/get/product/{id_product}", handlerGetPublishedProduct)
 	handlerAddProduct := products_add_admin.New(productsRepo, log)
 	router.Method(http.MethodPost, "/api/v1/add/product", handlerAddProduct)
-	handlerChangePriceOfProduct := products_change_admin.New(productsRepo, log)
+	handlerChangePriceOfProduct := products_change_price_admin.New(productsRepo, log)
 	router.Method(http.MethodPut, "/api/v1/change/price/product", handlerChangePriceOfProduct)
 	handlerChangeNameOfProduct := products_change_name_admin.New(productsRepo, log)
 	router.Method(http.MethodPut, "/api/v1/change/name/product", handlerChangeNameOfProduct)
+	handlerChangeStatusOfProduct := products_change_status_admin.New(productsRepo, log)
+	router.Method(http.MethodPut, "/api/v1/change/status/product", handlerChangeStatusOfProduct)
 	handlerDeleteProduct := products_delete_admin.New(productsRepo, log)
 	router.Method(http.MethodDelete, "/api/v1/delete/product", handlerDeleteProduct)
 
