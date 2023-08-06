@@ -14,6 +14,7 @@ type DB interface {
 	Insert(newProduct *models.Product) (*models.Product, error)
 	UpdatePrice(idProduct int, price float64) (*models.Product, error)
 	UpdateName(idProduct int, name string) (*models.Product, error)
+	UpdateStatus(idProduct int, status string) (*models.Product, error)
 	Delete(idProduct int) (*models.Product, error)
 }
 
@@ -82,6 +83,15 @@ func (products *Products) ChangeName(idProduct int, name string) (*models.Produc
 	}
 
 	return updatedName, nil
+}
+
+func (products *Products) ChangeStatus(idProduct int, status string) (*models.Product, error) {
+	updatedStatus, err := products.db.UpdateStatus(idProduct, status)
+	if err != nil {
+		return nil, errors.Wrapf(err, "can not change status")
+	}
+
+	return updatedStatus, nil
 }
 
 func (products *Products) Delete(idProduct int) (*models.Product, error) {

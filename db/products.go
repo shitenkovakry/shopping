@@ -143,6 +143,24 @@ func (db *DB) UpdateName(idProduct int, name string) (*models.Product, error) {
 	return updatedName, nil
 }
 
+func (db *DB) UpdateStatus(idProduct int, status string) (*models.Product, error) {
+	_, err := db.connection.Exec(
+		`update "items" set "status" = $1 where "id" = $2`,
+		status, idProduct,
+	)
+
+	if err != nil {
+		return nil, errors.Wrapf(err, "can not update product status")
+	}
+
+	updatedStatus := &models.Product{
+		ID:     idProduct,
+		Status: status,
+	}
+
+	return updatedStatus, nil
+}
+
 func (db *DB) Delete(idProduct int) (*models.Product, error) {
 	deletedProduct := &models.Product{}
 
