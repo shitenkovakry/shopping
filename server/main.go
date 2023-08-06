@@ -21,6 +21,7 @@ import (
 
 	buyers_change_email_public "shopping/handlers/buyers/change-email/public"
 	buyers_change_name_public "shopping/handlers/buyers/change-name/public"
+	buyers_change_status_admin "shopping/handlers/buyers/change-status/admin"
 	buyers_register_public "shopping/handlers/buyers/register/public"
 
 	"shopping/logger"
@@ -70,6 +71,8 @@ func main() {
 	router.Method(http.MethodPut, "/api/v1/change/name/buyer", handlerChangeNameOfBuyer)
 	handlerChangeEmailOfBuyer := buyers_change_email_public.New(buyersRepo, log)
 	router.Method(http.MethodPut, "/api/v1/change/email/buyer", handlerChangeEmailOfBuyer)
+	handlerChangeStatusOfBuyer := buyers_change_status_admin.New(buyersRepo, log)
+	router.Method(http.MethodPut, "/api/v1/change/status/buyer", handlerChangeStatusOfBuyer)
 
 	server := NewServer(address, router)
 
