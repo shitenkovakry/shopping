@@ -18,9 +18,9 @@ import (
 	products_list_admin "shopping/handlers/products/list/admin"
 	products_list_public "shopping/handlers/products/list/public"
 
-	buyers_add_admin "shopping/handlers/buyers/add/admin"
 	buyers_change_email_public "shopping/handlers/buyers/change-email/public"
 	buyers_change_name_public "shopping/handlers/buyers/change-name/public"
+	buyers_register_public "shopping/handlers/buyers/register/public"
 
 	"shopping/logger"
 	buyersRepo "shopping/repositories/buyers"
@@ -61,8 +61,8 @@ func main() {
 	handlerDeleteProduct := products_delete_admin.New(productsRepo, log)
 	router.Method(http.MethodDelete, "/api/v1/delete/product", handlerDeleteProduct)
 
-	handlerAddBuyer := buyers_add_admin.New(buyersRepo, log)
-	router.Method(http.MethodPost, "/api/v1/add/buyer", handlerAddBuyer)
+	handlerRegisterBuyer := buyers_register_public.New(buyersRepo, log)
+	router.Method(http.MethodPost, "/api/v1/register/buyer", handlerRegisterBuyer)
 	handlerChangeNameOfBuyer := buyers_change_name_public.New(buyersRepo, log)
 	router.Method(http.MethodPut, "/api/v1/change/name/buyer", handlerChangeNameOfBuyer)
 	handlerChangeEmailOfBuyer := buyers_change_email_public.New(buyersRepo, log)

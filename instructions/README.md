@@ -75,12 +75,12 @@ curl -i -X DELETE \
 
 
 
-In order to add buyer, do this:
+In order to register buyer, do this:
 
 ```
 curl -i -X POST \
  --data-binary '{"name_buyer": "Josh","email_buyer": "josh@mail.ru","balance_buyer": 500.50, "status_buyer": "active"}' \
-  http://localhost:8080/api/v1/add/buyer
+  http://localhost:8080/api/v1/register/buyer
   ```
 
  In order to change name of buyer, do this:
