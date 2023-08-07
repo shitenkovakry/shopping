@@ -9,7 +9,6 @@ import (
 
 type ReplenishBalanceOfBuyer struct {
 	ID             int     `json:"id_buyer"`
-	Balance        float64 `json:"new_balance"`
 	PriceOfProduct float64 `json:"price_product"`
 }
 
