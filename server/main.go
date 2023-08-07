@@ -22,6 +22,7 @@ import (
 	buyers_change_email_public "shopping/handlers/buyers/change-email/public"
 	buyers_change_name_public "shopping/handlers/buyers/change-name/public"
 	buyers_change_status_admin "shopping/handlers/buyers/change-status/admin"
+	buyers_delete_account_public "shopping/handlers/buyers/delete-account/public"
 	buyers_register_public "shopping/handlers/buyers/register/public"
 
 	"shopping/logger"
@@ -73,6 +74,8 @@ func main() {
 	router.Method(http.MethodPut, "/api/v1/change/email/buyer", handlerChangeEmailOfBuyer)
 	handlerChangeStatusOfBuyer := buyers_change_status_admin.New(buyersRepo, log)
 	router.Method(http.MethodPut, "/api/v1/change/status/buyer", handlerChangeStatusOfBuyer)
+	handlerDeleteAccountOfBuyer := buyers_delete_account_public.New(buyersRepo, log)
+	router.Method(http.MethodDelete, "api/vi/delete/account", handlerDeleteAccountOfBuyer)
 
 	server := NewServer(address, router)
 
