@@ -11,6 +11,7 @@ type DB interface {
 	UpdateNameOfBuyer(idBuyer int, name string) (*models.Buyer, error)
 	UpdateEmailOfBuyer(idBuyer int, email string) (*models.Buyer, error)
 	UpdateStatusOfBuyer(idBuyer int, status string) (*models.Buyer, error)
+	UpdateBalanceOfBuyerAfterShopping(idBuyer int, priceOfProduct float64) (*models.Buyer, error)
 	DeleteAccount(idBuyer int) (*models.Buyer, error)
 	GetBuyerByID(idBuyer int) (*models.Buyer, error)
 }
@@ -62,6 +63,15 @@ func (buyers *Buyers) DeleteAccount(idBuyer int) (*models.Buyer, error) {
 	}
 
 	return deletedBuyer, nil
+}
+
+func (buyers *Buyers) ReplenishBalance(idBuyer int, priceOfProduct float64) (*models.Buyer, error) {
+	replenishedBalance, err := buyers.db.UpdateBalanceOfBuyerAfterShopping(idBuyer, priceOfProduct)
+	if err != nil {
+		return nil, errors.Wrapf(err, "can not change balance after shopping")
+	}
+
+	return replenishedBalance, nil
 }
 
 func New(db DB) *Buyers {

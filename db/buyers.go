@@ -123,3 +123,30 @@ func (db *DB) DeleteAccount(idBuyer int) (*models.Buyer, error) {
 
 	return deletedBuyer, nil
 }
+
+func (db *DB) UpdateBalanceOfBuyerAfterShopping(idBuyer int, priceOfProduct float64) (*models.Buyer, error) {
+	buyer, err := db.GetBuyerByID(idBuyer)
+	if err != nil {
+		return nil, errors.Wrapf(err, "can not get buyer")
+	}
+
+	balanceOfBuyerBeforShopping := buyer.Balance
+
+	if balanceOfBuyerBeforShopping < priceOfProduct {
+		return nil, errors.New("insufficient balance")
+	}
+
+	balanceAfterShopping := balanceOfBuyerBeforShopping - priceOfProduct
+
+	_, err = db.connection.Exec(
+		`update "buyers" set "balance" = $1 where "id" = $2`,
+		balanceAfterShopping, idBuyer,
+	)
+	if err != nil {
+		return nil, errors.Wrapf(err, "can not update buyer balance")
+	}
+
+	buyer.Balance = balanceAfterShopping
+
+	return buyer, nil
+}
