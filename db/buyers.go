@@ -83,3 +83,43 @@ func (db *DB) UpdateStatusOfBuyer(idBuyer int, status string) (*models.Buyer, er
 
 	return updatedStatus, nil
 }
+func (db *DB) GetBuyerByID(idBuyer int) (*models.Buyer, error) {
+	row := db.connection.QueryRow(
+		`select "id", "name", "email", "balance", "status" from "buyers" where "id" = $1`,
+		idBuyer,
+	)
+
+	buyer := &models.Buyer{}
+	err := row.Scan(&buyer.ID, &buyer.Name, &buyer.Email, &buyer.Balance, &buyer.Status)
+	if err != nil {
+		return nil, errors.Wrapf(err, "can not get buyer by ID")
+	}
+
+	return buyer, nil
+}
+
+func (db *DB) DeleteAccount(idBuyer int) (*models.Buyer, error) {
+	deletedBuyer, err := db.GetBuyerByID(idBuyer)
+	if err != nil {
+		return nil, errors.Wrapf(err, "can not get buyer before deletion")
+	}
+
+	// Удаляем аккаунт из базы данных
+	_, err = db.connection.Exec(
+		`delete from "buyers" where "id" = $1`,
+		idBuyer,
+	)
+	if err != nil {
+		return nil, errors.Wrapf(err, "can not delete buyer")
+	}
+
+	_, err = db.connection.Exec(
+		`update "buyers" set "status" = 'deleted' where "id" = $1`,
+		idBuyer,
+	)
+	if err != nil {
+		return nil, errors.Wrapf(err, "can not update buyer status")
+	}
+
+	return deletedBuyer, nil
+}

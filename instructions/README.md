@@ -113,5 +113,5 @@ curl -i -X PUT \
 ```
 curl -i -X PUT \
  --data-binary '{"id_buyer":1,"new_status": "deleted"}' \
-  http://localhost:8080/api/v1/change/status/buyer"
+  http://localhost:8080/api/v1/change/statusg/buyer"
   ```

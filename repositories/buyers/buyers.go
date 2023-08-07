@@ -11,6 +11,8 @@ type DB interface {
 	UpdateNameOfBuyer(idBuyer int, name string) (*models.Buyer, error)
 	UpdateEmailOfBuyer(idBuyer int, email string) (*models.Buyer, error)
 	UpdateStatusOfBuyer(idBuyer int, status string) (*models.Buyer, error)
+	DeleteAccount(idBuyer int) (*models.Buyer, error)
+	GetBuyerByID(idBuyer int) (*models.Buyer, error)
 }
 
 type Buyers struct {
@@ -51,6 +53,15 @@ func (buyers *Buyers) ChangeStatuslOfBuyer(idBuyer int, status string) (*models.
 	}
 
 	return updatedStatus, nil
+}
+
+func (buyers *Buyers) DeleteAccount(idBuyer int) (*models.Buyer, error) {
+	deletedBuyer, err := buyers.db.DeleteAccount(idBuyer)
+	if err != nil {
+		return nil, errors.Wrapf(err, "can not delete buyer")
+	}
+
+	return deletedBuyer, nil
 }
 
 func New(db DB) *Buyers {
