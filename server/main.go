@@ -24,6 +24,7 @@ import (
 	buyers_change_status_admin "shopping/handlers/buyers/change-status/admin"
 	buyers_delete_account_public "shopping/handlers/buyers/delete-account/public"
 	buyers_register_public "shopping/handlers/buyers/register/public"
+	buyers_replenish_balance_admin "shopping/handlers/buyers/replenish-balance/admin"
 
 	"shopping/logger"
 	buyersRepo "shopping/repositories/buyers"
@@ -76,6 +77,8 @@ func main() {
 	router.Method(http.MethodPut, "/api/v1/change/status/buyer", handlerChangeStatusOfBuyer)
 	handlerDeleteAccountOfBuyer := buyers_delete_account_public.New(buyersRepo, log)
 	router.Method(http.MethodDelete, "api/vi/delete/account", handlerDeleteAccountOfBuyer)
+	handlerReplenishBalanceOfBuyer := buyers_replenish_balance_admin.New(buyersRepo, log)
+	router.Method(http.MethodPut, "/api/v1/replenish/balance/buyer", handlerReplenishBalanceOfBuyer)
 
 	server := NewServer(address, router)
 
